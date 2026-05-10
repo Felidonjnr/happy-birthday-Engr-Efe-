@@ -21,7 +21,7 @@ export const CONTENT = {
     smallLine: "May this new chapter bring peace, strength, favour, wisdom, and joy.",
     buttonText: "Read the Birthday Message",
     // Update these URLs with actual image paths
-    mainPhotoUrl: "", 
+    mainPhotoUrl: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0100_wismr0.jpg", 
     mainPhotoLabel: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0100_wismr0.jpg"
   },
 
