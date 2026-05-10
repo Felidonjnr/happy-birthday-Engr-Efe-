@@ -22,7 +22,7 @@ export const CONTENT = {
     buttonText: "Read the Birthday Message",
     // Update these URLs with actual image paths
     mainPhotoUrl: "", 
-    mainPhotoLabel: "MAIN COVER PHOTO"
+    mainPhotoLabel: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0100_wismr0.jpg"
   },
 
   // 3. MAIN BIRTHDAY MESSAGE (TYPING ANIMATION)
@@ -53,9 +53,9 @@ export const CONTENT = {
     title: "Captured Moments",
     images: [
       { 
-        url: "", // Add actual image URL here
+        url: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0098_sakexd.jpg", // Add actual image URL here
         label: "Supporting Photo 1", 
-        title: "A Family Man" 
+        title: "" 
       },
       { 
         url: "", // Add actual image URL here
