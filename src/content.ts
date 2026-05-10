@@ -58,12 +58,12 @@ export const CONTENT = {
         title: "" 
       },
       { 
-        url: "", // Add actual image URL here
+        url: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778414844/IMG-20260508-WA0046_vp1hdb.jpg", // Add actual image URL here
         label: "Supporting Photo 2", 
         title: "Honoured Today" 
       },
       { 
-        url: "", // Add actual image URL here
+        url: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778414844/IMG-20260508-WA0101_lady11.jpg", // Add actual image URL here
         label: "Main Cover Photo", 
         title: "A Man Worth Celebrating" 
       },
