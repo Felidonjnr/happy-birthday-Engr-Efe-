@@ -21,8 +21,8 @@ export const CONTENT = {
     smallLine: "May this new chapter bring peace, strength, favour, wisdom, and joy.",
     buttonText: "Read the Birthday Message",
     // Update these URLs with actual image paths
-    mainPhotoUrl: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0100_wismr0.jpg", 
-    mainPhotoLabel: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0100_wismr0.jpg"
+    mainPhotoUrl: "", 
+    mainPhotoLabel: "MAIN COVER PHOTO"
   },
 
   // 3. MAIN BIRTHDAY MESSAGE (TYPING ANIMATION)
@@ -53,17 +53,17 @@ export const CONTENT = {
     title: "Captured Moments",
     images: [
       { 
-        url: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778415039/IMG-20260508-WA0098_sakexd.jpg", // Add actual image URL here
+        url: "", // Add actual image URL here
         label: "Supporting Photo 1", 
-        title: "" 
+        title: "A Family Man" 
       },
       { 
-        url: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778414844/IMG-20260508-WA0046_vp1hdb.jpg", // Add actual image URL here
+        url: "", // Add actual image URL here
         label: "Supporting Photo 2", 
         title: "Honoured Today" 
       },
       { 
-        url: "https://res.cloudinary.com/drcroxtgs/image/upload/v1778414844/IMG-20260508-WA0101_lady11.jpg", // Add actual image URL here
+        url: "", // Add actual image URL here
         label: "Main Cover Photo", 
         title: "A Man Worth Celebrating" 
       },
