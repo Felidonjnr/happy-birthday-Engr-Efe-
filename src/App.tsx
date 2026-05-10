@@ -2,15 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import confetti from 'canvas-confetti';
 import { 
-  Heart, 
-  ShieldCheck, 
-  Star, 
   ChevronRight, 
   RotateCcw,
-  Camera,
-  Sun,
-  Anchor
+  Camera
 } from 'lucide-react';
+import { CONTENT } from './content';
 
 // --- Shared Components ---
 
@@ -44,12 +40,10 @@ const CinematicIntro = ({ onEnter }: { onEnter: () => void }) => {
   const [stage, setStage] = useState(0);
   
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setStage(1), 1000),
-      setTimeout(() => setStage(2), 3500),
-      setTimeout(() => setStage(3), 6000),
-      setTimeout(() => setStage(4), 8500),
-    ];
+    const stageCount = CONTENT.intro.stages.length + 1;
+    const timers = Array.from({ length: stageCount }).map((_, i) => 
+      setTimeout(() => setStage(i + 1), (i + 1) * 2500 - 1500)
+    );
     return () => timers.forEach(clearTimeout);
   }, []);
 
@@ -62,40 +56,20 @@ const CinematicIntro = ({ onEnter }: { onEnter: () => void }) => {
 
       <div className="relative z-10 text-center px-6 max-w-4xl">
         <AnimatePresence mode="wait">
-          {stage === 1 && (
-            <motion.p
-              key="text1"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="text-xl md:text-2xl font-serif italic text-accent/80"
-            >
-              Today, we pause to celebrate a special man.
-            </motion.p>
-          )}
-          {stage === 2 && (
-            <motion.p
-              key="text2"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="text-xl md:text-2xl font-serif italic text-white/90"
-            >
-              A man of value, strength, responsibility, and quiet impact.
-            </motion.p>
-          )}
-          {stage === 3 && (
-            <motion.p
-              key="text3"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="text-xl md:text-2xl font-serif italic text-white/90"
-            >
-              A father, a husband, and a life worthy of honour.
-            </motion.p>
-          )}
-          {stage >= 4 && (
+          {CONTENT.intro.stages.map((text, idx) => (
+            stage === idx + 1 && (
+              <motion.p
+                key={`text${idx}`}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                className="text-xl md:text-2xl font-serif italic text-accent/80"
+              >
+                {text}
+              </motion.p>
+            )
+          ))}
+          {stage >= CONTENT.intro.stages.length + 1 && (
             <motion.div
               key="final"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -103,10 +77,10 @@ const CinematicIntro = ({ onEnter }: { onEnter: () => void }) => {
               className="space-y-8"
             >
               <h1 className="text-4xl md:text-7xl font-serif font-bold tracking-widest text-accent mb-2">
-                HAPPY BIRTHDAY
+                {CONTENT.intro.mainTitle}
               </h1>
               <h2 className="text-2xl md:text-4xl font-serif tracking-widest text-white border-y border-accent/20 py-4 inline-block px-8 uppercase">
-                Engr Efe
+                {CONTENT.intro.name}
               </h2>
               <div className="pt-12">
                 <motion.button
@@ -115,7 +89,7 @@ const CinematicIntro = ({ onEnter }: { onEnter: () => void }) => {
                   onClick={onEnter}
                   className="bg-accent px-10 py-4 text-primary font-bold tracking-[0.2em] rounded-full gold-glow transition-all text-xs"
                 >
-                  ENTER THE CELEBRATION
+                  {CONTENT.intro.buttonText}
                 </motion.button>
               </div>
             </motion.div>
@@ -141,29 +115,38 @@ const Hero = () => {
       >
         <div className="relative mb-10 inline-block">
           <div className="absolute inset-0 bg-accent/20 blur-3xl rounded-full" />
-          <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-accent/40 p-1.5 shadow-2xl">
-            <div className="w-full h-full rounded-full border border-white/10 bg-slate-800 flex items-center justify-center text-accent/20 overflow-hidden relative">
-              <Camera size={48} />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end justify-center pb-6">
-                <span className="text-[10px] tracking-[0.3em] font-bold text-white/50">MAIN COVER PHOTO</span>
+          <div className="relative w-40 h-40 md:w-56 md:h-56 rounded-full border-2 border-accent/40 p-1.5 shadow-2xl overflow-hidden ring-4 ring-primary">
+            {CONTENT.hero.mainPhotoUrl ? (
+              <img 
+                src={CONTENT.hero.mainPhotoUrl} 
+                alt={CONTENT.hero.displayName}
+                className="w-full h-full object-cover rounded-full"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="w-full h-full rounded-full border border-white/10 bg-slate-800 flex items-center justify-center text-accent/20 overflow-hidden relative">
+                <Camera size={48} />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end justify-center pb-6">
+                  <span className="text-[10px] tracking-[0.3em] font-bold text-white/50 uppercase">{CONTENT.hero.mainPhotoLabel}</span>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 
         <h1 className="text-3xl md:text-6xl font-serif font-bold text-white mb-6">
-          Happy Birthday, <span className="text-accent underline decoration-accent/20 underline-offset-8">Engr Efe</span>
+          {CONTENT.hero.title} <span className="text-accent underline decoration-accent/20 underline-offset-8">{CONTENT.hero.displayName}</span>
         </h1>
         <p className="text-lg md:text-xl text-slate-300 font-serif italic mb-4 max-w-2xl mx-auto leading-relaxed">
-          “A sincere celebration of a good man, a loving husband, and a father worthy of honour.”
+          {CONTENT.hero.subtitle}
         </p>
         <p className="text-slate-500 font-medium tracking-wide text-sm md:text-base uppercase">
-          May this new chapter bring peace, strength, favour, wisdom, and joy.
+          {CONTENT.hero.smallLine}
         </p>
 
         <div className="mt-12 flex justify-center">
           <a href="#message" className="px-8 py-4 glass-card border-accent/20 text-accent font-semibold flex items-center gap-2 hover:bg-accent/5 transition-all text-sm uppercase tracking-widest">
-            Read the Birthday Message <ChevronRight size={16} />
+            {CONTENT.hero.buttonText} <ChevronRight size={16} />
           </a>
         </div>
       </motion.div>
@@ -172,28 +155,6 @@ const Hero = () => {
 };
 
 const TypingMessage = () => {
-  const fullMessageLines = [
-    "Dear Engr Efe,",
-    "",
-    "Today, I celebrate you with sincere respect and honour.",
-    "",
-    "I may not have known you for many years, but in the time I have spent around your family, one thing is clear: you are a man who carries value, responsibility, and quiet strength.",
-    "",
-    "You are seen not only as Engr Efe, but as a good father, a loving husband, and a man whose presence brings stability and meaning to his home.",
-    "",
-    "A good man does not always need many words to be recognized. Sometimes, his life speaks through the way he cares, provides, leads, supports, and stands for the people entrusted to him.",
-    "",
-    "On this special day, I pray that God blesses you with greater wisdom, sound health, peace of mind, divine favour, open doors, and lasting joy.",
-    "",
-    "May your home continue to enjoy love, unity, laughter, and blessings. May this new year of your life be more peaceful, more fruitful, and more fulfilling than the years before.",
-    "",
-    "Happy Birthday, Engr Efe.",
-    "",
-    "You are honoured.",
-    "You are appreciated.",
-    "You are celebrated."
-  ];
-
   const [displayLines, setDisplayLines] = useState<string[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
@@ -202,8 +163,8 @@ const TypingMessage = () => {
   useEffect(() => {
     if (!isTyping) return;
 
-    if (currentLineIndex < fullMessageLines.length) {
-      const currentFullLine = fullMessageLines[currentLineIndex];
+    if (currentLineIndex < CONTENT.birthdayMessage.length) {
+      const currentFullLine = CONTENT.birthdayMessage[currentLineIndex];
       
       if (currentCharIndex < currentFullLine.length) {
         const timer = setTimeout(() => {
@@ -214,7 +175,7 @@ const TypingMessage = () => {
             return next;
           });
           setCurrentCharIndex(prev => prev + 1);
-        }, 20); // Faster typing for better flow
+        }, 20);
         return () => clearTimeout(timer);
       } else {
         const timer = setTimeout(() => {
@@ -275,22 +236,16 @@ const TypingMessage = () => {
 };
 
 const CapturedMoments = () => {
-  const images = [
-    { label: "Supporting Photo 1", title: "A Family Man" },
-    { label: "Supporting Photo 2", title: "Honoured Today" },
-    { label: "Main Cover Photo", title: "A Man Worth Celebrating" },
-  ];
-
   return (
     <section id="gallery" className="py-24 bg-secondary px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-2">Captured Moments</h2>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-2">{CONTENT.gallery.title}</h2>
           <div className="w-16 h-0.5 bg-accent mx-auto mt-4" />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {images.map((img, idx) => (
+          {CONTENT.gallery.images.map((img, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 15 }}
@@ -300,10 +255,19 @@ const CapturedMoments = () => {
               className="group"
             >
               <div className="relative aspect-square bg-slate-800 rounded-2xl overflow-hidden border border-white/5 group-hover:border-accent/20 transition-all shadow-xl">
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-700 bg-gradient-to-br from-slate-800 to-primary">
-                  <Camera size={32} className="mb-2 opacity-10" />
-                  <span className="font-bold tracking-widest text-[9px] opacity-10 uppercase">{img.label}</span>
-                </div>
+                {img.url ? (
+                  <img 
+                    src={img.url} 
+                    alt={img.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-700 bg-gradient-to-br from-slate-800 to-primary">
+                    <Camera size={32} className="mb-2 opacity-10" />
+                    <span className="font-bold tracking-widest text-[9px] opacity-10 uppercase">{img.label}</span>
+                  </div>
+                )}
                 
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-60" />
                 
@@ -320,17 +284,10 @@ const CapturedMoments = () => {
 };
 
 const BlessingCards = () => {
-  const cards = [
-    { title: "Peace", icon: Anchor, text: "May your heart and home continue to enjoy peace." },
-    { title: "Strength", icon: ShieldCheck, text: "May God give you strength for every responsibility and every new season." },
-    { title: "Favour", icon: Star, text: "May doors open for you in beautiful and unexpected ways." },
-    { title: "Joy", icon: Sun, text: "May your life and family continue to enjoy laughter, love, and fulfilment." }
-  ];
-
   return (
     <section className="py-24 bg-primary px-6">
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {cards.map((card, idx) => (
+        {CONTENT.blessings.map((card, idx) => (
           <motion.div
             key={idx}
             initial={{ opacity: 0, y: 10 }}
@@ -354,7 +311,6 @@ const BlessingCards = () => {
 const Closing = ({ onReset }: { onReset: () => void }) => {
   const [showContent, setShowContent] = useState(false);
   const [typedText, setTypedText] = useState("");
-  const targetText = "Engr Efe, may this new chapter be brighter, stronger, more peaceful, and more rewarding.";
 
   useEffect(() => {
     const timer = setTimeout(() => setShowContent(true), 800);
@@ -362,9 +318,9 @@ const Closing = ({ onReset }: { onReset: () => void }) => {
   }, []);
 
   useEffect(() => {
-    if (showContent && typedText.length < targetText.length) {
+    if (showContent && typedText.length < CONTENT.closing.typingText.length) {
       const timer = setTimeout(() => {
-        setTypedText(targetText.substring(0, typedText.length + 1));
+        setTypedText(CONTENT.closing.typingText.substring(0, typedText.length + 1));
       }, 40);
       return () => clearTimeout(timer);
     }
@@ -397,14 +353,14 @@ const Closing = ({ onReset }: { onReset: () => void }) => {
                 className="space-y-4"
               >
                 <div className="text-3xl md:text-5xl font-serif font-bold text-white space-y-3">
-                  <p>Happy Birthday.</p>
-                  <p className="text-2xl md:text-3xl opacity-80">Keep leading.</p>
-                  <p className="text-2xl md:text-3xl opacity-80">Keep loving.</p>
-                  <p className="text-2xl md:text-3xl opacity-80">Keep standing strong.</p>
+                  <p>{CONTENT.closing.mainPraise}</p>
+                  {CONTENT.closing.subPraise.map((p, i) => (
+                    <p key={i} className="text-2xl md:text-3xl opacity-80">{p}</p>
+                  ))}
                 </div>
 
                 <p className="pt-10 text-slate-500 italic text-lg">
-                  With honour and sincere celebration.
+                  {CONTENT.closing.signature}
                 </p>
                 
                 <div className="pt-16">
@@ -414,7 +370,7 @@ const Closing = ({ onReset }: { onReset: () => void }) => {
                     onClick={onReset}
                     className="bg-transparent border border-accent/40 text-accent px-10 py-3.5 rounded-full font-bold tracking-[0.2em] hover:bg-accent hover:text-primary transition-all text-xs"
                   >
-                    CELEBRATE AGAIN
+                    {CONTENT.closing.buttonText}
                   </motion.button>
                 </div>
               </motion.div>
@@ -468,7 +424,7 @@ export default function App() {
             
             <footer className="py-12 bg-primary border-t border-white/5 text-center px-6">
               <p className="text-slate-600 text-[10px] font-bold tracking-[0.4em] uppercase">
-                A Sincere Birthday Tribute to Engr Efe
+                {CONTENT.footer}
               </p>
             </footer>
           </motion.div>
